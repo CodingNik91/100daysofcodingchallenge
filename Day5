@@ -1,0 +1,155 @@
+import java.util.*;
+import java.lang.*;
+
+public class Globals
+{
+	static Scanner scn=new Scanner(System.in);
+	public static node head;
+	public static node temp;
+	static class Node {
+		
+	node row_index;
+	node column_index;
+	int value;
+	node next;
+		};
+		
+	public static void readsparse(int[][] sparsematrix, int row, int column)
+	{
+		int i;
+		int j;
+		for (i = 0;i < row;i++)
+		{
+			for (j = 0;j < column;j++)
+			{
+				System.out.println("Elements of the matrix: ");
+				sparsematrix[i][j]=scn.nextInt();
+			}
+		}
+	}
+
+	public static void create(int elem, int rowindex, int columnindex)
+	{
+		node newnode;
+		temp = head;
+		if (temp == null)
+		{
+			temp = new node();
+			temp.value = elem;
+			temp.row_index = rowindex;
+			temp.column_index = columnindex;
+			temp.next = null;
+			head = temp;
+		}
+		else
+		{
+
+			while (temp.next != null)
+			{
+				temp = (node) temp.next;
+			}
+			newnode = new node();
+			newnode.value = elem;
+			newnode.row_index = rowindex;
+			newnode.column_index = columnindex;
+			newnode.next = null;
+			temp.next = newnode;
+		}
+	}
+
+	public static void display()
+	{
+		temp = head;
+		System.out.println("Row position:");
+		while (temp != null)
+		{
+			System.out.println(temp.row_index);
+			temp = (node) temp.next;
+		}
+		temp = head;
+		System.out.println("\n Column position:");
+		while (temp != null)
+		{
+			System.out.println(temp.column_index);
+			temp = (node) temp.next;
+		}
+		temp = head;
+		System.out.println("\nValue:");
+		while (temp != null)
+		{
+			System.out.println(temp.value);
+			temp = (node) temp.next;
+		}
+		System.out.println();
+	}
+
+	public static void delete_elem(int[][] sparsematrix, int row, int column)
+	{
+		int todelete;
+		int i;
+		int j;
+		node t;
+		temp = head;
+		System.out.println("Enter element you want to delete");
+		todelete=scn.nextInt();
+		if (todelete != 0)
+		{
+			for (i = 0;i < row;i++)
+			{
+				for (j = 0;j < column;j++)
+				{
+					if (todelete == sparsematrix[i][j])
+					{
+						sparsematrix[i][j] = 0;
+						t = (node) temp.next;
+						temp.next = t.next;
+						t = null;
+						break;
+					}
+					else
+					{
+						temp = (node) temp.next;
+					}
+				}
+			}
+
+		}
+	}
+
+	public static void main(String[] args)
+	{
+		int row;
+		int column;
+		int i;
+		int j;
+		System.out.println("Enter how many rows and columns you want to enter:");
+		row=scn.nextInt();
+		column=scn.nextInt();
+		int[][] sparsematrix = new int[row][column];
+		readsparse(sparsematrix, row, column);
+		for (i = 0;i < row;i++)
+		{
+			for (j = 0;j < column;j++)
+			{
+				if (sparsematrix[i][j] != 0)
+				{
+					create(sparsematrix[i][j], i, j);
+				}
+			}
+		}
+		display();
+
+		delete_elem(sparsematrix, row, column);
+		for (i = 0;i < row;i++)
+		{
+			for (j = 0;j < column;j++)
+			{
+				if (sparsematrix[i][j] != 0)
+				{
+					create(sparsematrix[i][j], i, j);
+				}
+			}
+		}
+		display();
+	}
+}
