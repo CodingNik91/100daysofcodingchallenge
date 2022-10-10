@@ -1,0 +1,85 @@
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+
+// } Driver Code Ends
+//User function Template for Java
+
+
+class Solution {
+    
+    // public List<Integer> numOfIslands(int rows, int cols, int[][] operators) {
+        //Your code here
+        public List<Integer> numOfIslands(int rows, int cols, int[][] operators) {
+        //Your code here
+        List<Integer> ans = new ArrayList<> ();
+        int k = operators.length;
+        int grid[][] = new int[rows][cols];
+        for(int ii = 0; ii < k; ii++) {
+            grid[operators[ii][0]][operators[ii][1]] = 1;
+            
+            boolean vis[][] = new boolean[rows][cols];
+            int islands = 0;
+            for(int i = 0; i < rows; i++) {
+                for(int j = 0; j < cols; j++) {
+                    if(!vis[i][j] && grid[i][j] == 1) {
+                        dfs(i, j, rows, cols, grid, vis);
+                        islands++;
+                    }
+                }
+            }
+            ans.add(islands);
+        }
+        return ans;
+    }
+    
+    void dfs(int i, int j, int maxi, int maxj, int grid[][], boolean vis[][]) {
+        if(!isIn(i, j, maxi, maxj) || grid[i][j] == 0 || vis[i][j]) return;
+        vis[i][j] = true;
+        
+        dfs(i + 1, j, maxi, maxj, grid, vis);
+        dfs(i - 1, j, maxi, maxj, grid, vis);
+        dfs(i, j + 1, maxi, maxj, grid, vis);
+        dfs(i, j - 1, maxi, maxj, grid, vis);
+    }
+    
+    boolean isIn(int i, int j, int maxi, int maxj) {
+        return i >= 0 && i < maxi && j >= 0 && j < maxj;
+    
+    }
+    
+}
+
+//{ Driver Code Starts.
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int  k= sc.nextInt();
+            int[][] a = new int[k][2];
+            for(int i=0;i<k;i++){
+            
+                a[i][0] = sc.nextInt();
+                a[i][1] = sc.nextInt();
+            }
+            
+            Solution obj = new Solution();
+            List<Integer> ans = obj.numOfIslands(n,m,a);
+           
+            for(int i:ans){
+                System.out.print(i+" ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+// } Driver Code Ends
