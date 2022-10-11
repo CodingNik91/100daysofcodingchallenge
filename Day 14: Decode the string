@@ -1,0 +1,97 @@
+/*
+An encoded string (s) is given, the task is to decode it. The encoding pattern is that the occurance of the string is given at the starting of the string and each string is enclosed by square brackets.
+
+Example 1:
+
+Input: s = 1[b]
+Output: b
+Explaination: 'b' is present only one time.
+Example 2:
+
+Input: s = 3[b2[ca]]
+Output: bcacabcacabcaca
+Explaination: 2[ca] means 'ca' is repeated 
+twice which is 'caca' which concatenated with 
+'b' becomes 'bcaca'. This string repeated 
+thrice becomes the output.
+Your Task:
+You do not need to read input or print annything. Your task is to complete the function decodedString() which takes s as input parameter and returns the decoded string.
+
+Expected Time Complexity: O(|s|)
+Expected Auxiliary Space: O(|s|)
+
+Constraints:
+1 ≤ |s| ≤ 103 
+ 
+*/
+//Solution
+
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out=new PrintWriter(System.out);
+        int t = Integer.parseInt(in.readLine());
+        while(t-- > 0){
+            String s = in.readLine();
+            
+            Solution ob = new Solution();
+            out.println(ob.decodedString(s));
+        }
+        out.close();
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+    static String decodedString(String s){
+        Stack<Integer> stack1=new Stack<>();
+        Stack<StringBuilder> stack2=new Stack<>();
+        StringBuilder cur_s=new StringBuilder();
+        int cur_no=0;
+        
+        int i=0;
+        
+        while(i<s.length()){
+            
+            if(Character.isDigit(s.charAt(i))){
+                
+                while(Character.isDigit(s.charAt(i))){
+                    cur_no=cur_no*10+s.charAt(i)- '0';
+                    i++;
+                }
+            }
+            else if(s.charAt(i)=='['){
+                stack1.push(cur_no);
+                stack2.push(cur_s);
+                cur_no=0;
+                cur_s=new StringBuilder();
+                i++;
+            }
+            else if(s.charAt(i)==']'){
+                StringBuilder temp=cur_s;
+                cur_s=stack2.pop();
+                
+                int no=stack1.pop();
+                for(int j=0;j<no;j++) cur_s.append(temp);
+                
+                
+                i++;
+            }
+            else{
+               cur_s.append(s.charAt(i));
+               i++;
+            } 
+        }
+        return cur_s.toString(); 
+    }
+}
