@@ -1,0 +1,202 @@
+/*
+Shortest Distance in a Binary Maze
+MediumAccuracy: 36.93%Submissions: 1939Points: 4
+LampGeek Week 2022 is LIVE! Click Here to View All the Exciting Offers!
+Given a n * m matrix grid where each element can either be 0 or 1. You need to find the shortest distance between a given source cell to a destination cell. The path can only be created out of a cell if its value is 1. 
+
+If the path is not possible between source cell and destination cell, then return -1.
+
+Note : You can move into an adjacent cell if that adjacent cell is filled with element 1. Two cells are adjacent if they share a side. In other words, you can move in one of the four directions, Up, Down, Left and Right.
+
+Example 1:
+
+Input:
+grid[][] = {{1, 1, 1, 1},
+            {1, 1, 0, 1},
+            {1, 1, 1, 1},
+            {1, 1, 0, 0},
+            {1, 0, 0, 1}}
+source = {0, 1}
+destination = {2, 2}
+Output:
+3
+Explanation:
+1 1 1 1
+1 1 0 1
+1 1 1 1
+1 1 0 0
+1 0 0 1
+The highlighted part in the matrix denotes the 
+shortest path from source to destination cell.
+Example 2:
+
+Input:
+grid[][] = {{1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 0},
+            {1, 0, 1, 0, 1}}
+source = {0, 0}
+destination = {3, 4}
+Output:
+-1
+Explanation:
+The path is not possible between source and 
+destination, hence return -1.
+Your Task:
+
+You don't need to read or print anything. Your task is to complete the function shortestPath() which takes the a 2D integer array grid, source cell and destination cell as an input parameters and returns the shortest distance between source and destination cell.
+
+Expected Time Complexity: O(n * m)
+Expected Space Complexity: O(n * m)
+
+Constraints:
+
+1 ≤ n, m ≤ 500
+grid[i][j] == 0 or grid[i][j] == 1
+The source and destination cells are always inside the given matrix.
+The source and destination cells always contain 1.
+*/
+
+
+//{ Driver Code Starts
+// Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// Position this line where user code will be pasted.
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] grid = new int[n][m];
+
+            for (int i = 0; i < n; i++) {
+
+                for (int j = 0; j < m; j++) {
+                    grid[i][j] = sc.nextInt();
+                }
+            }
+            int[] source = new int[2];
+            for (int i = 0; i < 2; i++) {
+                int x = sc.nextInt();
+                source[i] = x;
+            }
+            int[] dest = new int[2];
+            for (int i = 0; i < 2; i++) {
+                int x = sc.nextInt();
+                dest[i] = x;
+            }
+            Solution ob = new Solution();
+            int ans = ob.shortestPath(grid, source, dest);
+            System.out.println(ans);
+        }
+    }
+}
+// } Driver Code Ends
+
+
+// User function Template for Java
+
+class Solution {
+
+    class pair {
+
+         int x;
+
+         int y;
+
+         int d;
+
+         pair(int x,int y,int d){
+
+             this.x=x;
+
+             this.y=y;
+
+             this.d=d;
+
+         }
+
+     }
+
+     boolean valid(int i,int j,int[][] vis,int[][] g){
+
+         int n=vis.length;
+
+         int m=g[0].length;
+
+         if(i<0 || j<0 || i>=n || j>=m ||vis[i][j]!=-1 || g[i][j]==0)
+
+               return false;
+
+         return true;       
+
+     }
+
+     int[] x={-1,0,1,0};
+
+     int[] y ={0,1,0,-1};
+
+    int shortestPath(int[][] g, int[] s, int[] d) {
+
+        // Your code here
+
+       int[][] vis = new int[g.length][g[0].length];
+
+        ArrayDeque<pair> dq = new ArrayDeque<>();
+
+        dq.add(new pair(s[0],s[1],0));
+
+        
+
+        for(int i=0;i<g.length;i++){
+
+            for(int j=0;j<g[0].length;j++){
+
+                vis[i][j]=-1;
+
+            }
+
+        }
+
+        
+
+        while(!dq.isEmpty()){
+
+            int a=dq.size();
+
+            for(int i=0;i<a;i++){
+
+            pair re=dq.remove();
+
+            
+
+            if(vis[re.x][re.y]==-1)
+
+                  vis[re.x][re.y]=re.d;
+
+            else
+
+                continue;
+
+            for(int j=0;j<4;j++){
+
+                if(valid(re.x+x[j],re.y+y[j],vis,g))
+
+                      dq.add(new pair(re.x+x[j],re.y+y[j],re.d+1));
+
+            }
+
+            }
+
+        }
+
+        return vis[d[0]][d[1]];
+    }
+}
