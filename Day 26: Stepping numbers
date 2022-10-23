@@ -1,0 +1,92 @@
+/*
+Stepping Numbers
+
+A number is called a stepping number if all adjacent digits have an absolute difference of 1, e.g. '321' is a Stepping Number while 421 is not. Given two integers n and m, find the count of all the stepping numbers in the range [n, m].
+
+Example 1:
+
+Input: n = 0, m = 21
+Output: 13
+Explanation: Stepping no's are 0 1 2 3 4 5
+6 7 8 9 10 12 21
+Example 2:
+
+Input: n = 10, m = 15
+Output: 2
+Explanation: Stepping no's are 10, 12
+
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function steppingNumbers() which takes the integer n and integer m as input parameters and returns the number of stepping numbers in the range between n and m.
+
+Expected Time Complexity: O(log(M))
+Expected Auxiliary Space: O(SN) where SN is the number of stepping numbers in the range
+
+
+Constraints:
+0 ≤ N < M ≤ 107
+*/
+
+//{ Driver Code Starts
+//Initial Template for Java
+
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int  N = Integer.parseInt(input_line[0]);
+            int  M = Integer.parseInt(input_line[1]);
+            
+            Solution ob = new Solution();
+            int ans = ob.steppingNumbers(N, M);
+            System.out.println(ans);
+        }
+    }
+}
+
+
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+    int steppingNumbers(int n, int m){
+        // code here
+        Queue<Integer> q = new LinkedList<>();
+        int ans = 0;
+        for(int i=0;i<=9;i++){
+            q.add(i);
+            while(!q.isEmpty()){
+                int t = q.poll();
+                if(t>=n && t <= m)
+                    ans++;
+                if(t == 0 || t > m)
+                    continue;
+                int d = t%10;
+                if(d == 0)
+                    q.add(t*10 + d+1);
+                else if(d == 9)
+                    q.add(t*10 + d-1);
+                else{
+                    q.add(t*10 + d-1);
+                    q.add(t*10 + d+1);
+                }
+            }
+        }
+        return ans;
+
+    }
+}
