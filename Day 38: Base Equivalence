@@ -1,0 +1,100 @@
+/*
+Base Equivalence
+
+Given a number (n) and no. of digits (m) to represent the number, we have to check if we can represent n using exactly m digits in any base from 2 to 32.
+
+Example 1:
+
+Input: n = 8, m = 2
+Output: Yes 
+Explanation: Possible in base 3 as 8 in base 3 is 22.  
+
+Example 2:
+
+Input: n = 8, m = 3
+Output: No
+Explanation: Not possible in any base. 
+
+Your Task:  
+You dont need to read input or print anything. Complete the function baseEquiv() which takes n and m as input parameter and returns "Yes" if its possible to represent the number else "No" without quotes..
+
+Expected Time Complexity: O(logN).
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 <= n <=109
+1 <= m <=32
+*/
+
+//{ Driver Code Starts
+//Initial Template for Java
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            String[] input = new String[2]; 
+            input = br.readLine().split(" "); 
+            int n = Integer.parseInt(input[0]); 
+            int m = Integer.parseInt(input[1]); 
+            Solution ob = new Solution();
+            System.out.println(ob.baseEquiv(n,m));
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+class Solution
+
+{
+
+    String baseEquiv(int n, int m)
+
+    {
+
+        int i = 2;
+
+        while(i<=32){
+
+         int len = count(n,i);
+
+         if(len == m)
+
+            return "Yes";
+
+            i++;
+
+        }
+
+        return "No";
+
+    }
+
+    
+
+    int count(int n,int base){
+
+        int count = 0;
+
+        while(n!=0){
+
+            count++;
+
+            n = n/base;
+
+        }
+
+        return count;
+
+    }
+
+}
